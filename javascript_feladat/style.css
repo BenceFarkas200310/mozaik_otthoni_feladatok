@@ -21,6 +21,10 @@ h1 {
   text-decoration: underline;
 }
 
+#new-collection {
+  margin-bottom: 30px;
+}
+
 .collections {
   max-height: 80%;
   overflow-y: scroll;
