@@ -1,0 +1,24 @@
+{
+  "collections": [
+    {
+      "id": 0,
+      "name": "Gyűjtemény1",
+      "content": ["file1", "file2", "file3"]
+    },
+    {
+      "id": 1,
+      "name": "Gyűjtemény2",
+      "content": ["file1"]
+    },
+    {
+      "id": 2,
+      "name": "Gyűjtemény3",
+      "content": []
+    },
+    {
+      "id": 3,
+      "name": "Gyűjtemény4",
+      "content": ["file1", "file2", "file3", "file3"]
+    }
+  ]
+}
