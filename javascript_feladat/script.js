@@ -20,7 +20,9 @@ function loadCards(collections) {
           />
           <div class="card-body">
             <h5 class="card-title">${collection.name}</h5>
-            
+            <p class="card-text">
+                Témakör: ${collection.theme}
+            </p>
             <a href="#" class="btn btn-outline-primary open-btn">Megnyitás</a>
           </div>
         </div>
