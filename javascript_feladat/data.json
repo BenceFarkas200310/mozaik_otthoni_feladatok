@@ -2,21 +2,31 @@
   {
     "id": 0,
     "name": "Gyűjtemény1",
+    "theme": "Állatok",
     "content": ["file1", "file2", "file3"]
   },
   {
     "id": 1,
     "name": "Gyűjtemény2",
+    "theme": "Zene",
     "content": ["file1"]
   },
   {
     "id": 2,
     "name": "Gyűjtemény3",
+    "theme": "Zene",
     "content": []
   },
   {
     "id": 3,
     "name": "Gyűjtemény4",
+    "theme": "Tananyag",
     "content": ["file1", "file2", "file3", "file3"]
+  },
+  {
+    "id": 4,
+    "name": "Gyűjtemény5",
+    "theme": "Kedvencek",
+    "content": ["file1", "file2"]
   }
 ]
