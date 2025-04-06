@@ -9,8 +9,9 @@ window.onload = () => {
 };
 
 function loadCards(collections) {
-  for (collection of collections) {
-    collectionsElement.innerHTML += `
+  if (collections.length !== 0) {
+    for (collection of collections) {
+      collectionsElement.innerHTML += `
             <div class="card" style="width: 18rem">
           <img
             src="./assets/placeholder.jpeg"
@@ -24,5 +25,8 @@ function loadCards(collections) {
           </div>
         </div>
         `;
+    }
+  } else {
+    collectionsElement.innerHTML = "<h2>Még nincs egy gyűjteményed sem!</h2>";
   }
 }
