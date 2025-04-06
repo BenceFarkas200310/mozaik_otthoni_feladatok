@@ -25,6 +25,14 @@ h1 {
   margin-bottom: 30px;
 }
 
+.card-text {
+  color: rgba(104, 103, 103, 0.837);
+}
+
+.open-btn {
+  margin-top: 20px;
+}
+
 .collections {
   max-height: 80%;
   overflow-y: scroll;
