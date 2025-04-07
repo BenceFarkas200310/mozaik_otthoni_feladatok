@@ -21,6 +21,10 @@ h1 {
   text-decoration: underline;
 }
 
+input {
+  margin-bottom: 15px;
+}
+
 #new-collection {
   margin-bottom: 30px;
 }
