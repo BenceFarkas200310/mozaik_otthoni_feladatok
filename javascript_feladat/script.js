@@ -11,8 +11,10 @@ const collectionModalBodyElement = document.querySelector(
 );
 
 const newItemFormElement = document.querySelector("#new-item-form");
+const newItemNameInput = document.querySelector("#new-item-name");
 let collectionsArray = [];
 let clickCounter = 0;
+let currentCollectionId = null;
 
 newCollectionFormElement.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -89,12 +91,13 @@ function addNewCollection() {
       loadCards(collectionsArray);
     })
     .catch((error) => {
-      console.error("Hiba:", error);
+      alert("Hiba:", error);
     });
 }
 
 function openCollection(id) {
   const collection = collectionsArray[id];
+  currentCollectionId = id;
 
   collectionModalTitleElement.innerHTML = collection.name;
   for (item of collection.content) {
@@ -111,6 +114,32 @@ function openCollection(id) {
         </div>
       </div>
     `;
+  }
+}
+
+function addNewItem() {
+  const collection = collectionsArray[currentCollectionId];
+  const newItemName = newItemNameInput.value;
+  const id = currentCollectionId;
+  if (collection) {
+    collection.content.push(newItemName);
+
+    fetch(`http://localhost:3000/collections/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(collection),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        loadCards(collectionsArray);
+      })
+      .catch((error) => {
+        alert("Hiba:", error);
+      });
+  } else {
+    alert("Gyűjtemény nem található");
   }
 }
 

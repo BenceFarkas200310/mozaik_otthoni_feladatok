@@ -103,9 +103,14 @@
               Elem hozzáadása
             </button>
 
-            <form id="new-item-form" class="hidden">
+            <form id="new-item-form" class="hidden" onsubmit="addNewItem()">
               <label for="new-item-name" class="form-label">Új elem neve</label>
-              <input type="text" class="form-control" id="new-item-name" />
+              <input
+                type="text"
+                class="form-control"
+                id="new-item-name"
+                required
+              />
               <button
                 type="reset"
                 class="btn btn-outline-primary"
