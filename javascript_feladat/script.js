@@ -3,7 +3,12 @@ const newCollectionFormElement = document.querySelector("#newCollectionForm");
 const nameInputElement = document.querySelector("#nameInput");
 const themeInputElement = document.querySelector("#themeInput");
 const dateInputElement = document.querySelector("#dateInput");
-
+const collectionModalTitleElement = document.querySelector(
+  "#collectionModalLabel"
+);
+const collectionModalBodyElement = document.querySelector(
+  "#collectionModalBody"
+);
 let collectionsArray = [];
 
 newCollectionFormElement.addEventListener("submit", function (event) {
@@ -40,7 +45,10 @@ function loadCards(collections) {
             <p class="card-text">
                 Témakör: ${collection.theme}
             </p>
-            <a href="#" class="btn btn-outline-primary open-btn">Megnyitás</a>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#collectionModal" onclick="openCollection(${collection.id})">
+              Megnyitás
+            </button>
+
           </div>
         </div>
         `;
@@ -51,12 +59,15 @@ function loadCards(collections) {
 }
 
 function addNewCollection() {
+  //TODO: Use date input
   const newCollectionName = nameInputElement.value;
   const newCollectionTheme = themeInputElement.value;
   const newCollectionDate = dateInputElement.value;
 
   let newCollection = {
-    id: collectionsArray[collectionsArray.length - 1].id + 1,
+    id: collectionsArray.length
+      ? collectionsArray[collectionsArray.length - 1].id + 1
+      : 0,
     name: newCollectionName,
     theme: newCollectionTheme,
     content: [],
@@ -77,4 +88,29 @@ function addNewCollection() {
     .catch((error) => {
       console.error("Hiba:", error);
     });
+}
+
+function openCollection(id) {
+  const collection = collectionsArray[id];
+
+  collectionModalTitleElement.innerHTML = collection.name;
+  for (item of collection.content) {
+    collectionModalBodyElement.innerHTML += `
+      <div class="card">
+        <div class="card-body" style="justify-content: space-between;">
+          ${item}
+          <select class="form-select-action" aria-label="Válassz műveletet">
+            <option selected>Válassz műveletet</option>
+            <option value="move">Áthelyezés</option>
+            <option value="rename">Átnevezés</option>
+            <option value="delete">Törlés</option>
+          </select>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function closeCollectionModal() {
+  collectionModalBodyElement.innerHTML = ``;
 }
