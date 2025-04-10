@@ -1,9 +1,26 @@
 const collectionsElement = document.querySelector(".collections");
+const newCollectionFormElement = document.querySelector("#newCollectionForm");
+const nameInputElement = document.querySelector("#nameInput");
+const themeInputElement = document.querySelector("#themeInput");
+const dateInputElement = document.querySelector("#dateInput");
+
+let collectionsArray = [];
+
+newCollectionFormElement.addEventListener("submit", function (event) {
+  event.preventDefault();
+  addNewCollection();
+
+  const modalElement = document.getElementById("formModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElement);
+  modalInstance.hide();
+});
+
 window.onload = () => {
-  fetch("./data.json")
+  fetch("http://localhost:3000/collections")
     .then((response) => response.json())
     .then((data) => {
       loadCards(data);
+      collectionsArray = data;
     })
     .catch((err) => alert("Hiba az adatok betöltése közben!"));
 };
@@ -31,4 +48,20 @@ function loadCards(collections) {
   } else {
     collectionsElement.innerHTML = "<h2>Még nincs egy gyűjteményed sem!</h2>";
   }
+}
+
+function addNewCollection() {
+  const newCollectionName = nameInputElement.value;
+  const newCollectionTheme = themeInputElement.value;
+  const newCollectionDate = dateInputElement.value;
+
+  let newCollection = {
+    id: collectionsArray[collectionsArray.length - 1].id + 1,
+    name: newCollectionName,
+    theme: newCollectionTheme,
+    content: [],
+  };
+
+  console.log(JSON.stringify(newCollection));
+  collectionsArray.push(newCollection);
 }
