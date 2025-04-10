@@ -62,6 +62,19 @@ function addNewCollection() {
     content: [],
   };
 
-  console.log(JSON.stringify(newCollection));
-  collectionsArray.push(newCollection);
+  fetch("http://localhost:3000/collections", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newCollection),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      collectionsArray.push(newCollection);
+      loadCards(collectionsArray);
+    })
+    .catch((error) => {
+      console.error("Hiba:", error);
+    });
 }
