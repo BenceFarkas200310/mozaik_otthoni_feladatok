@@ -29,6 +29,24 @@ input {
   margin-bottom: 30px;
 }
 
+#add-content-btn {
+  margin-inline: 15px;
+  margin-block: 20px;
+}
+
+#new-item-form {
+  justify-self: center;
+  width: 90%;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
 .card-text {
   color: rgba(104, 103, 103, 0.837);
 }

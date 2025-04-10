@@ -93,13 +93,30 @@
           <div class="modal-header">
             <h5 class="modal-title" id="collectionModalLabel"></h5>
           </div>
-          <div class="modal-body" id="collectionModalBody">
-            <div class="add-content">
-              <button type="button" class="btn btn-outline-primary">
-                Elem hozzáadása
+          <div class="add-content">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="add-content-btn"
+              onclick="toggleVisibility()"
+            >
+              Elem hozzáadása
+            </button>
+
+            <form id="new-item-form" class="hidden">
+              <label for="new-item-name" class="form-label">Új elem neve</label>
+              <input type="text" class="form-control" id="new-item-name" />
+              <button
+                type="reset"
+                class="btn btn-outline-primary"
+                onclick="toggleVisibility()"
+              >
+                Mégsem
               </button>
-            </div>
+              <button type="submit" class="btn btn-primary">Hozzáadás</button>
+            </form>
           </div>
+          <div class="modal-body" id="collectionModalBody"></div>
           <div class="modal-footer">
             <button
               type="reset"

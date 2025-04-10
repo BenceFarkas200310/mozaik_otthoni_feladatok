@@ -9,7 +9,10 @@ const collectionModalTitleElement = document.querySelector(
 const collectionModalBodyElement = document.querySelector(
   "#collectionModalBody"
 );
+
+const newItemFormElement = document.querySelector("#new-item-form");
 let collectionsArray = [];
+let clickCounter = 0;
 
 newCollectionFormElement.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -97,7 +100,7 @@ function openCollection(id) {
   for (item of collection.content) {
     collectionModalBodyElement.innerHTML += `
       <div class="card">
-        <div class="card-body" style="justify-content: space-between;">
+        <div class="card-body">
           ${item}
           <select class="form-select-action" aria-label="Válassz műveletet">
             <option selected>Válassz műveletet</option>
@@ -113,4 +116,15 @@ function openCollection(id) {
 
 function closeCollectionModal() {
   collectionModalBodyElement.innerHTML = ``;
+}
+
+function toggleVisibility() {
+  clickCounter++;
+  if (clickCounter % 2 === 0) {
+    newItemFormElement.classList.remove("visible");
+    newItemFormElement.classList.add("hidden");
+  } else {
+    newItemFormElement.classList.remove("hidden");
+    newItemFormElement.classList.add("visible");
+  }
 }
