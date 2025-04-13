@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <!--MODAL: Gyűjtemény megnyitása-->>
+    <!--MODAL: Gyűjtemény megnyitása-->
     <div
       class="modal fade"
       id="collectionModal"
@@ -103,7 +103,7 @@
               Elem hozzáadása
             </button>
 
-            <form id="new-item-form" class="hidden" onsubmit="addNewItem()">
+            <form id="new-item-form" class="hidden" method="PUT">
               <label for="new-item-name" class="form-label">Új elem neve</label>
               <input
                 type="text"
@@ -118,7 +118,13 @@
               >
                 Mégsem
               </button>
-              <button type="submit" class="btn btn-primary">Hozzáadás</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                onclick="addNewItem()"
+              >
+                Hozzáadás
+              </button>
             </form>
           </div>
           <div class="modal-body" id="collectionModalBody"></div>

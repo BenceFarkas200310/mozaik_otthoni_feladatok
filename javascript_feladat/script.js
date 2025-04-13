@@ -37,6 +37,7 @@ window.onload = () => {
 
 function loadCards(collections) {
   if (collections.length !== 0) {
+    collectionsElement.innerHTML = ``;
     for (collection of collections) {
       collectionsElement.innerHTML += `
             <div class="card" style="width: 18rem">
@@ -71,7 +72,7 @@ function addNewCollection() {
 
   let newCollection = {
     id: collectionsArray.length
-      ? collectionsArray[collectionsArray.length - 1].id + 1
+      ? Number(collectionsArray[collectionsArray.length - 1].id) + 1
       : 0,
     name: newCollectionName,
     theme: newCollectionTheme,
@@ -96,9 +97,12 @@ function addNewCollection() {
 }
 
 function openCollection(id) {
-  const collection = collectionsArray[id];
+  const collection = collectionsArray.find((col) => col.id == id);
   currentCollectionId = id;
+  collectionModalBodyElement.innerHTML = "";
 
+  console.log(id);
+  console.log(collection);
   collectionModalTitleElement.innerHTML = collection.name;
   for (item of collection.content) {
     collectionModalBodyElement.innerHTML += `
@@ -121,8 +125,10 @@ function addNewItem() {
   const collection = collectionsArray[currentCollectionId];
   const newItemName = newItemNameInput.value;
   const id = currentCollectionId;
+  console.log(id);
   if (collection) {
     collection.content.push(newItemName);
+    console.log(collection);
 
     fetch(`http://localhost:3000/collections/${id}`, {
       method: "PUT",
@@ -131,12 +137,16 @@ function addNewItem() {
       },
       body: JSON.stringify(collection),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
+        console.log(data);
         loadCards(collectionsArray);
       })
       .catch((error) => {
-        alert("Hiba:", error);
+        console.error("Error details:", error);
+        alert("Hiba történt: " + error.message);
       });
   } else {
     alert("Gyűjtemény nem található");
