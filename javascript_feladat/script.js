@@ -121,11 +121,11 @@ function openCollection(id) {
     collectionModalBodyElement.innerHTML += `
       <div class="card">
         <div class="card-body" id="item-card-body">
-          ${item}
-          <select class="form-select-action" aria-label="Válassz műveletet" onchange="handleActionChange(this, '${item}', ${
+          <span id="item-card-title-${item}">${item}</span>
+          <select class="select-action-element" class="form-select-action" aria-label="Válassz műveletet" onchange="handleActionChange(this, '${item}', ${
       collection.id
     })">
-            <option selected>Válassz műveletet</option>
+            <option value="def"selected>Válassz műveletet</option>
             <option value="move">Áthelyezés</option>
             <option value="rename">Átnevezés</option>
             <option value="delete">Törlés</option>
@@ -162,12 +162,10 @@ function addNewItem() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         loadCards(collectionsArray);
       })
       .catch((error) => {
         console.error("Error details:", error);
-        alert("Hiba történt: " + error.message);
       });
   } else {
     alert("Gyűjtemény nem található");
@@ -228,18 +226,19 @@ function submitRename(collectionId) {
   } else cancelRename();
 }
 
-// -------------------------------
-
 function handleActionChange(selectElement, itemName, currentCollectionId) {
   const action = selectElement.value;
-  const targetSelect = document.getElementById(`target-collection-${itemName}`);
+  const targetSelect = document.querySelector(`#target-collection-${itemName}`);
+  const itemCard = document.querySelector("#item-card-title-" + itemName);
+
+  itemCard.innerHTML = itemName;
 
   if (action === "move") {
     targetSelect.classList.remove("hidden");
     targetSelect.onchange = function () {
       const targetCollectionId = targetSelect.value;
       const confirmMove = confirm(
-        `Biztosan át szeretnéd helyezni a(z) "${itemName}" elemet a kiválasztott gyűjteménybe?ß`
+        `Biztosan át szeretnéd helyezni a(z) "${itemName}" elemet a kiválasztott gyűjteménybe?`
       );
       if (confirmMove) {
         moveItemToCollection(itemName, currentCollectionId, targetCollectionId);
@@ -248,6 +247,19 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
         targetSelect.classList.add("hidden");
       }
     };
+  } else if (action === "rename") {
+    itemCard.innerHTML = `
+      <form>
+        <input type="text" id="new-item-name-${itemName}" placeholder="Új név" required>
+        <button type="button" class="btn btn-primary" onclick="renameItem('${itemName}')">Átnevez</button>
+        <button type="button" class="btn btn-outline-primary" onclick="resetSelectElement()">Mégsem</button>
+      </form>
+    `;
+    targetSelect.classList.add("hidden");
+  } else if (action === "def") {
+    const itemCard = document.querySelector("#item-card-title-" + itemName);
+    itemCard.innerHTML = itemCard.innerHTML = itemName;
+    targetSelect.classList.add("hidden");
   } else {
     targetSelect.classList.add("hidden");
   }
@@ -289,4 +301,31 @@ function moveItemToCollection(itemName, fromCollectionId, toCollectionId) {
         console.error("Error moving item:", error);
       });
   }
+}
+
+function renameItem(itemName) {
+  const newName = document.querySelector("#new-item-name-" + itemName).value;
+  let collection = collectionsArray.find(
+    (col) => col.id == currentCollectionId
+  );
+  let indexToRename = collection.content.indexOf(itemName);
+  if (indexToRename !== -1) {
+    collection.content[indexToRename] = newName;
+    console.log(collection.content);
+
+    fetch(`http://localhost:3000/collections/${currentCollectionId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(collection),
+    })
+      .then(() => loadCards(collectionsArray))
+      .catch((err) => console.log("Hiba: " + err));
+  }
+}
+
+function resetSelectElement() {
+  const selectElement = document.querySelector(".select-action-element");
+  selectElement.value = "def";
 }
