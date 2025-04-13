@@ -148,25 +148,29 @@ function addNewItem() {
   const id = currentCollectionId;
   console.log(id);
   if (collection) {
-    collection.content.push(newItemName);
-    console.log(collection);
+    if (collection.content.indexOf(newItemName) === -1) {
+      collection.content.push(newItemName);
+      console.log(collection);
 
-    fetch(`http://localhost:3000/collections/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(collection),
-    })
-      .then((response) => {
-        return response.json();
+      fetch(`http://localhost:3000/collections/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(collection),
       })
-      .then((data) => {
-        loadCards(collectionsArray);
-      })
-      .catch((error) => {
-        console.error("Error details:", error);
-      });
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          loadCards(collectionsArray);
+        })
+        .catch((error) => {
+          console.error("Error details:", error);
+        });
+    } else {
+      alert("Már létezik elem ilyen névvel!");
+    }
   } else {
     alert("Gyűjtemény nem található");
   }
