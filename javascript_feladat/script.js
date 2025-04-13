@@ -111,8 +111,8 @@ function openCollection(id) {
       </button>
       <form class="rename-input hidden" id="rename-input-${collection.id}">
         <input type="text" class="form-control" placeholder="${collection.name}" id="rename-input-field-${collection.id}" required/>
-        <button class="btn btn-primary" onclick="submitRename(${collection.id})">Átnevez</button>
-        <button class="btn btn-secondary" onclick="cancelRename(${collection.id})">Mégsem</button>
+        <button type="button" class="btn btn-primary" onclick="submitRename(${collection.id})">Átnevez</button>
+        <button type="button" class="btn btn-secondary" onclick="cancelRename(${collection.id})">Mégsem</button>
       </form>
     </div>
   `;
