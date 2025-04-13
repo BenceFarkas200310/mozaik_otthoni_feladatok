@@ -132,6 +132,7 @@ function openCollection(id) {
           </select>
           <select class="form-select-target hidden" aria-label="Válassz célgyűjteményt" id="target-collection-${item}">
             ${collectionsArray
+              .filter((col) => col.id != collection.id)
               .map((col) => `<option value="${col.id}">${col.name}</option>`)
               .join("")}
           </select>
