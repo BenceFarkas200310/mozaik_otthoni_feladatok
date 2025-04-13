@@ -39,6 +39,11 @@ input {
   width: 90%;
 }
 
+#item-card-body {
+  display: flex;
+  justify-content: space-between;
+}
+
 .hidden {
   display: none;
 }
@@ -62,6 +67,10 @@ input {
   grid-template-columns: auto auto;
   gap: 15px;
   margin-bottom: 20px;
+}
+
+.rename-input {
+  margin-bottom: 10px;
 }
 
 @media (max-width: 750px) {

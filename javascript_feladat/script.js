@@ -103,14 +103,27 @@ function openCollection(id) {
 
   console.log(id);
   console.log(collection);
-  collectionModalTitleElement.innerHTML = collection.name;
+  collectionModalTitleElement.innerHTML = `
+    <div class="rename-section">
+      <span class="collection-name">${collection.name}</span>
+      <button class="btn btn-link rename-icon" onclick="showRenameInput(${collection.id})">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <form class="rename-input hidden" id="rename-input-${collection.id}">
+        <input type="text" class="form-control" placeholder="${collection.name}" id="rename-input-field-${collection.id}" required/>
+        <button class="btn btn-primary" onclick="submitRename(${collection.id})">Átnevez</button>
+        <button class="btn btn-secondary" onclick="cancelRename(${collection.id})">Mégsem</button>
+      </form>
+    </div>
+  `;
+
   for (item of collection.content) {
     collectionModalBodyElement.innerHTML += `
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" id="item-card-body">
           ${item}
           <select class="form-select-action" aria-label="Válassz műveletet">
-            <option selected>Válassz műveletet</option>
+            <option selected><i class="bi bi-chevron-down"></i></option>
             <option value="move">Áthelyezés</option>
             <option value="rename">Átnevezés</option>
             <option value="delete">Törlés</option>
@@ -166,4 +179,43 @@ function toggleVisibility() {
     newItemFormElement.classList.remove("hidden");
     newItemFormElement.classList.add("visible");
   }
+}
+function showRenameInput(collectionId) {
+  document
+    .getElementById(`rename-input-${collectionId}`)
+    .classList.remove("hidden");
+}
+
+function cancelRename(collectionId) {
+  document
+    .getElementById(`rename-input-${collectionId}`)
+    .classList.add("hidden");
+}
+
+function submitRename(collectionId) {
+  const newName = document.getElementById(
+    `rename-input-field-${collectionId}`
+  ).value;
+
+  if (newName) {
+    const collection = collectionsArray.find((col) => col.id == collectionId);
+    if (collection) {
+      collection.name = newName;
+
+      fetch(`http://localhost:3000/collections/${collectionId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(collection),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          loadCards(collectionsArray);
+        })
+        .catch((error) => {
+          console.error("Error updating collection:", error);
+        });
+    }
+  } else cancelRename();
 }
