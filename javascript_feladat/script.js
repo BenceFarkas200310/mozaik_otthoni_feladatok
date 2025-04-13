@@ -122,11 +122,18 @@ function openCollection(id) {
       <div class="card">
         <div class="card-body" id="item-card-body">
           ${item}
-          <select class="form-select-action" aria-label="Válassz műveletet">
-            <option selected><i class="bi bi-chevron-down"></i></option>
+          <select class="form-select-action" aria-label="Válassz műveletet" onchange="handleActionChange(this, '${item}', ${
+      collection.id
+    })">
+            <option selected>Válassz műveletet</option>
             <option value="move">Áthelyezés</option>
             <option value="rename">Átnevezés</option>
             <option value="delete">Törlés</option>
+          </select>
+          <select class="form-select-target hidden" aria-label="Válassz célgyűjteményt" id="target-collection-${item}">
+            ${collectionsArray
+              .map((col) => `<option value="${col.id}">${col.name}</option>`)
+              .join("")}
           </select>
         </div>
       </div>
@@ -218,4 +225,67 @@ function submitRename(collectionId) {
         });
     }
   } else cancelRename();
+}
+
+// -------------------------------
+
+function handleActionChange(selectElement, itemName, currentCollectionId) {
+  const action = selectElement.value;
+  const targetSelect = document.getElementById(`target-collection-${itemName}`);
+
+  if (action === "move") {
+    targetSelect.classList.remove("hidden");
+    targetSelect.onchange = function () {
+      const targetCollectionId = targetSelect.value;
+      const confirmMove = confirm(
+        `Biztosan át szeretnéd helyezni a(z) "${itemName}" elemet a kiválasztott gyűjteménybe?ß`
+      );
+      if (confirmMove) {
+        moveItemToCollection(itemName, currentCollectionId, targetCollectionId);
+      } else {
+        targetSelect.value = "";
+        targetSelect.classList.add("hidden");
+      }
+    };
+  } else {
+    targetSelect.classList.add("hidden");
+  }
+}
+
+function moveItemToCollection(itemName, fromCollectionId, toCollectionId) {
+  const fromCollection = collectionsArray.find(
+    (col) => col.id == fromCollectionId
+  );
+  const toCollection = collectionsArray.find((col) => col.id == toCollectionId);
+
+  if (fromCollection && toCollection) {
+    fromCollection.content = fromCollection.content.filter(
+      (item) => item != itemName
+    );
+
+    toCollection.content.push(itemName);
+
+    Promise.all([
+      fetch(`http://localhost:3000/collections/${fromCollectionId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fromCollection),
+      }),
+      fetch(`http://localhost:3000/collections/${toCollectionId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(toCollection),
+      }),
+    ])
+      .then(() => {
+        loadCards(collectionsArray);
+      })
+      .catch((error) => {
+        console.error("Error moving item:", error);
+      });
+  }
 }
