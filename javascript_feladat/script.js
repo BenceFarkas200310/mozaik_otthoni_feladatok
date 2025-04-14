@@ -249,7 +249,13 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
         `Biztosan át szeretnéd helyezni a(z) "${itemName}" elemet a kiválasztott gyűjteménybe?`
       );
       if (confirmMove) {
-        moveItemToCollection(itemName, currentCollectionId, targetCollectionId);
+        if (checkIfMovable(itemName, targetCollectionId)) {
+          moveItemToCollection(
+            itemName,
+            currentCollectionId,
+            targetCollectionId
+          );
+        } else alert("Már létezik fájl ezzel a névvel a célgyűjteményben!");
       } else {
         targetSelect.value = "";
         targetSelect.classList.add("hidden");
@@ -380,6 +386,14 @@ function deleteItems() {
       loadCards(collectionsArray);
     })
     .catch((error) => {
-      console.error("Error updating collection:", error);
+      console.error("Hiba:", error);
     });
+}
+
+function checkIfMovable(itemName, targetCollectionId) {
+  const collection = collectionsArray.find(
+    (col) => col.id == targetCollectionId
+  );
+  if (collection.content.indexOf(itemName) === -1) return true;
+  return false;
 }
