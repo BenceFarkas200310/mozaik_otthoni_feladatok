@@ -100,8 +100,6 @@ function openCollection(id) {
   collectionModalBodyElement.innerHTML = "";
   itemsToDelete = [];
 
-  console.log(id);
-  console.log(collection);
   collectionModalTitleElement.innerHTML = `
     <div class="rename-section">
       <span class="collection-name">${collection.name}</span>
@@ -148,11 +146,9 @@ function addNewItem() {
   );
   const newItemName = newItemNameInput.value;
   const id = currentCollectionId;
-  console.log(id);
   if (collection) {
     if (collection.content.indexOf(newItemName) === -1) {
       collection.content.push(newItemName);
-      console.log(collection);
 
       fetch(`http://localhost:3000/collections/${id}`, {
         method: "PUT",
@@ -169,7 +165,7 @@ function addNewItem() {
           loadCards(collectionsArray);
         })
         .catch((error) => {
-          console.error("Error details:", error);
+          console.error("Hiba:", error);
         });
     } else {
       alert("Már létezik elem ilyen névvel!");
@@ -345,7 +341,6 @@ function renameItem(itemName) {
   let indexToRename = collection.content.indexOf(itemName);
   if (indexToRename !== -1) {
     collection.content[indexToRename] = newName;
-    console.log(collection.content);
 
     fetch(`http://localhost:3000/collections/${currentCollectionId}`, {
       method: "PUT",
@@ -355,7 +350,7 @@ function renameItem(itemName) {
       body: JSON.stringify(collection),
     })
       .then(() => loadCards(collectionsArray))
-      .catch((err) => console.log("Hiba: " + err));
+      .catch((err) => alert("Hiba:", err));
   }
 }
 
