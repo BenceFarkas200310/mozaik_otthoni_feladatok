@@ -130,10 +130,11 @@ function openCollection(id) {
             <option value="delete">Törlés</option>
           </select>
           <select class="form-select-target hidden" aria-label="Válassz célgyűjteményt" id="target-collection-${item}">
-            ${collectionsArray
-              .filter((col) => col.id != collection.id)
-              .map((col) => `<option value="${col.id}">${col.name}</option>`)
-              .join("")}
+          <option value="">Célgyűjtemény</option>  
+          ${collectionsArray
+            .filter((col) => col.id != collection.id)
+            .map((col) => `<option value="${col.id}">${col.name}</option>`)
+            .join("")}
           </select>
         </div>
       </div>
@@ -164,6 +165,7 @@ function addNewItem() {
           return response.json();
         })
         .then((data) => {
+          collectionsArray = data;
           loadCards(collectionsArray);
         })
         .catch((error) => {
@@ -225,7 +227,7 @@ function submitRename(collectionId) {
           loadCards(collectionsArray);
         })
         .catch((error) => {
-          console.error("Error updating collection:", error);
+          console.error("Hiba:", error);
         });
     }
   } else cancelRename();
@@ -237,8 +239,6 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
   const itemCard = document.querySelector("#item-card-title-" + itemName);
 
   itemCard.innerHTML = itemName;
-
-  console.log("changed");
 
   if (action === "move") {
     // ÁTHELYEZÉS
@@ -284,7 +284,6 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
     itemsToDelete.includes(itemName) ? "" : itemsToDelete.push(itemName);
     itemCard.innerHTML = itemCard.innerHTML = itemName;
     targetSelect.classList.add("hidden");
-    console.log(itemsToDelete);
   } else if (action === "def") {
     const itemCard = document.querySelector("#item-card-title-" + itemName);
     itemCard.innerHTML = itemCard.innerHTML = itemName;
@@ -333,7 +332,7 @@ function moveItemToCollection(itemName, fromCollectionId, toCollectionId) {
         loadCards(collectionsArray);
       })
       .catch((error) => {
-        console.error("Error moving item:", error);
+        console.error("Hiba:", error);
       });
   }
 }
