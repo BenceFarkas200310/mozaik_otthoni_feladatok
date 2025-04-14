@@ -73,6 +73,7 @@ function addNewCollection() {
       : 0,
     name: newCollectionName,
     theme: newCollectionTheme,
+    date: newCollectionDate,
     content: [],
   };
 
