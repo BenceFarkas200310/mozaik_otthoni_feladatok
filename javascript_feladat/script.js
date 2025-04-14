@@ -146,7 +146,9 @@ function openCollection(id) {
 }
 
 function addNewItem() {
-  const collection = collectionsArray[currentCollectionId];
+  const collection = collectionsArray.find(
+    (col) => col.id == currentCollectionId
+  );
   const newItemName = newItemNameInput.value;
   const id = currentCollectionId;
   console.log(id);
