@@ -3,6 +3,7 @@ const newCollectionFormElement = document.querySelector("#newCollectionForm");
 const nameInputElement = document.querySelector("#nameInput");
 const themeInputElement = document.querySelector("#themeInput");
 const dateInputElement = document.querySelector("#dateInput");
+let submitDeleteButton = document.getElementById("submit-delete-btn");
 const collectionModalTitleElement = document.querySelector(
   "#collectionModalLabel"
 );
@@ -13,6 +14,7 @@ const collectionModalBodyElement = document.querySelector(
 const newItemFormElement = document.querySelector("#new-item-form");
 const newItemNameInput = document.querySelector("#new-item-name");
 let collectionsArray = [];
+let itemsToDelete = [];
 let clickCounter = 0;
 let currentCollectionId = null;
 
@@ -100,6 +102,7 @@ function openCollection(id) {
   const collection = collectionsArray.find((col) => col.id == id);
   currentCollectionId = id;
   collectionModalBodyElement.innerHTML = "";
+  itemsToDelete = [];
 
   console.log(id);
   console.log(collection);
@@ -237,7 +240,10 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
 
   itemCard.innerHTML = itemName;
 
+  console.log("changed");
+
   if (action === "move") {
+    // ÁTHELYEZÉS
     targetSelect.classList.remove("hidden");
     targetSelect.onchange = function () {
       const targetCollectionId = targetSelect.value;
@@ -251,7 +257,11 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
         targetSelect.classList.add("hidden");
       }
     };
+
+    let index = itemsToDelete.indexOf(itemName);
+    index !== -1 ? itemsToDelete.splice(index, 1) : "";
   } else if (action === "rename") {
+    // ÁTNEVEZÉS
     itemCard.innerHTML = `
       <form>
         <input type="text" id="new-item-name-${itemName}" placeholder="Új név" required>
@@ -260,13 +270,27 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
       </form>
     `;
     targetSelect.classList.add("hidden");
+    let index = itemsToDelete.indexOf(itemName);
+    index !== -1 ? itemsToDelete.splice(index, 1) : "";
+  } else if (action === "delete") {
+    // TÖRLÉS
+    itemsToDelete.includes(itemName) ? "" : itemsToDelete.push(itemName);
+    itemCard.innerHTML = itemCard.innerHTML = itemName;
+    targetSelect.classList.add("hidden");
+    console.log(itemsToDelete);
   } else if (action === "def") {
     const itemCard = document.querySelector("#item-card-title-" + itemName);
     itemCard.innerHTML = itemCard.innerHTML = itemName;
     targetSelect.classList.add("hidden");
+    let index = itemsToDelete.indexOf(itemName);
+    index !== -1 ? itemsToDelete.splice(index, 1) : "";
   } else {
     targetSelect.classList.add("hidden");
   }
+
+  if (itemsToDelete.length == 0) {
+    submitDeleteButton.setAttribute("disabled", "disabled");
+  } else submitDeleteButton.removeAttribute("disabled");
 }
 
 function moveItemToCollection(itemName, fromCollectionId, toCollectionId) {
@@ -332,4 +356,29 @@ function renameItem(itemName) {
 function resetSelectElement() {
   const selectElement = document.querySelector(".select-action-element");
   selectElement.value = "def";
+}
+
+function deleteItems() {
+  let collection = collectionsArray.find(
+    (col) => col.id == currentCollectionId
+  );
+  itemsToDelete.forEach((item) => {
+    let index = collection.content.indexOf(item);
+    index !== -1 ? collection.content.splice(index, 1) : "";
+  });
+
+  fetch(`http://localhost:3000/collections/${currentCollectionId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(collection),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      loadCards(collectionsArray);
+    })
+    .catch((error) => {
+      console.error("Error updating collection:", error);
+    });
 }
