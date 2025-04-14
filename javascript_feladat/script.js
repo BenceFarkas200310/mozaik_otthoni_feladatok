@@ -43,11 +43,6 @@ function loadCards(collections) {
     for (collection of collections) {
       collectionsElement.innerHTML += `
             <div class="card" style="width: 18rem">
-          <img
-            src="./assets/placeholder.jpeg"
-            class="card-img-top"
-            alt="Thumbnail"
-          />
           <div class="card-body">
             <h5 class="card-title">${collection.name}</h5>
             <p class="card-text">
@@ -128,7 +123,7 @@ function openCollection(id) {
           <select class="select-action-element" class="form-select-action" aria-label="Válassz műveletet" onchange="handleActionChange(this, '${item}', ${
       collection.id
     })">
-            <option value="def"selected>Válassz műveletet</option>
+            <option value="def"><i class="bi bi-caret-down-square-fill"></i></option>
             <option value="move">Áthelyezés</option>
             <option value="rename">Átnevezés</option>
             <option value="delete">Törlés</option>
