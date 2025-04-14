@@ -267,8 +267,11 @@ function handleActionChange(selectElement, itemName, currentCollectionId) {
     itemCard.innerHTML = `
       <form>
         <input type="text" id="new-item-name-${itemName}" placeholder="Új név" required>
-        <button type="button" class="btn btn-primary" onclick="renameItem('${itemName}')">Átnevez</button>
-        <button type="button" class="btn btn-outline-primary" onclick="resetSelectElement()">Mégsem</button>
+        <div class="rename-item-form-btns">
+          <button type="button" class="btn btn-primary" onclick="renameItem('${itemName}')">Átnevez</button>
+          <button type="button" class="btn btn-outline-primary" onclick="resetSelectElement()">Mégsem</button>
+        </div>
+        
       </form>
     `;
     targetSelect.classList.add("hidden");
