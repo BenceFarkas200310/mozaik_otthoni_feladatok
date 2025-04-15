@@ -7,5 +7,10 @@ Route::get('/', function () {
 });
 
 Route::get('/register', function () {
-    return view('livewire.register');
+    return view('register');
+});
+
+Route::post('/logout', function () {
+    auth()->logout();
+    return view('home');
 });

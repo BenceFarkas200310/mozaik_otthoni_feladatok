@@ -4,20 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Versenykezelő</title>
+    <title>Versenykezelő | Regisztráció</title>
     @livewireStyles
 </head>
 <body>
+    <livewire:register />
 
-    @auth
-        <h2>Bejelentkeztél</h2>
-        <form action="/logout" method="POST">
-            @csrf
-            <button>Kijelentkezés</button>
-        </form>
-    @else
-        <livewire:login />
-    @endauth
     @livewireScripts
 </body>
 </html>
