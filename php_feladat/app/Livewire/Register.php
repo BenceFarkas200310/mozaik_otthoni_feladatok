@@ -19,7 +19,7 @@ class Register extends Component
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8',
         'phone_number' => 'nullable|string|max:15',
-        'address' => 'nullable|string|max:255',
+        'address' => 'nullable|string|max:255'
     ];
 
     public function register()
@@ -31,7 +31,7 @@ class Register extends Component
             'email' => $this->email,
             'password' => Hash::make($this->password),
             'phone_number' => $this->phone_number,
-            'address' => $this->address,
+            'address' => $this->address
         ]);
 
         return redirect()->to('/');
