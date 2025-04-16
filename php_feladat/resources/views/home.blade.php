@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,7 @@
         @if (auth()->user()->is_admin == 1)
             <h2>Admin vagy</h2>
             <livewire:add-competition />
+            <livewire:competitions-list />
         @endif
     @else
         <livewire:login />

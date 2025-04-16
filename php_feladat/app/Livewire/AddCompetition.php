@@ -33,6 +33,7 @@ class AddCompetition extends Component
         ]);
 
         $this->reset();
+        $this->dispatch('competitionAdded');
     }
 
     public function render()
