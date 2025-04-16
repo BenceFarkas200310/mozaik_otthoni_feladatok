@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('competition_id')->constrained('competitions')->onDelete('cascade');
             $table->string('name');
+            $table->string('email');
             $table->integer('score')->default(0);
             $table->timestamps();
         });
