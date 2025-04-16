@@ -10,11 +10,16 @@
 <body>
 
     @auth
-        <h2>Bejelentkeztél</h2>
+        <h2>Bejelentkeztél, üdv {{auth()->user()->name}}</h2>
         <form action="/logout" method="POST">
             @csrf
             <button>Kijelentkezés</button>
         </form>
+
+        @if (auth()->user()->is_admin == 1)
+            <h2>Admin vagy</h2>
+            <livewire:add-competition />
+        @endif
     @else
         <livewire:login />
     @endauth

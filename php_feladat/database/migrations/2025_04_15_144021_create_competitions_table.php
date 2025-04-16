@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->year('year');
-            $table->json('available_languages');
+            $table->string('available_languages')->default('hu');
             $table->integer('points_for_right_answer');
             $table->integer('points_for_wrong_answer');
             $table->integer('points_for_empty_answer');

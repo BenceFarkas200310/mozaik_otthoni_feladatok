@@ -11,12 +11,14 @@ class Login extends Component
     public $password;
 
 
+    protected $rules = [
+        'email' => 'required|email',
+        'password' => 'required|min:8'
+    ];
+
     public function login()
     {
-        $this->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8',
-        ]);
+        $this->validate();
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             return redirect()->intended('/');
