@@ -3,7 +3,7 @@
     <ul>
         @foreach ($competitions as $competition)
             <li>
-                {{ $competition->name }}
+                {{ $competition->name }} - {{$competition->year}}
                 <form action="/competitions/{{ $competition->id }}" method="GET">
                     @csrf
                     <button>Részletek</button>
