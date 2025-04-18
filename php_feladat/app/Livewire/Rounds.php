@@ -11,9 +11,8 @@ class Rounds extends Component
     public $newRoundName;
     public $competition;
 
-    public function mount($competition)
+    public function mount()
     {
-        $this->competition = $competition;
         $this->rounds = Round::where('competition_id', $this->competition->id)->get();
     }
 

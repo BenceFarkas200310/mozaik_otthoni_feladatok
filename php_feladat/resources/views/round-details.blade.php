@@ -9,12 +9,7 @@
 <body>
     <h1>Forduló: {{ $round->name }}</h1>
     <h2>Versenyzők</h2>
-    <ul>
-        @foreach($contestants as $contestant)
-            <li>{{ $contestant->name }} ({{ $contestant->email }})</li>
-        @endforeach
-    </ul>
-
     <livewire:add-contestant :round="$round->id" />
+    <a href="/">Vissza a főoldalra</a>
 </body>
 </html>
