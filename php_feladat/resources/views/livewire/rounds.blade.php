@@ -1,6 +1,6 @@
 <div>
     <div class="container">
-        <h1>Rounds</h1>
+        <h1>Fordulók</h1>
         <form wire:submit.prevent="addRound">
             <div class="form-group">
                 <label for="newRoundName">Új forduló neve</label>
@@ -21,6 +21,7 @@
                     <tr>
                         <td>{{ $round->id }}</td>
                         <td>{{ $round->name }}</td>
+                        <td><a href="/rounds/{{$round->id}}">Részletek</a></td>
                     </tr>
                 @endforeach
             </tbody>
