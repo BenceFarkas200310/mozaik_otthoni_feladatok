@@ -50,6 +50,21 @@ class AddContestant extends Component
             session()->flash('error', 'Hiba!');
         }
     }
+
+    public function removeContestant($contestantId)
+    {
+        try {
+            ContestantRound::where('contestant_id', $contestantId)
+                ->where('round_id', $this->round)
+                ->delete();
+
+            $this->mount();
+
+            session()->flash('message', 'Versenyző sikeresen eltávolítva a fordulóból.');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Hiba a versenyző eltávolításakor: ' . $e->getMessage());
+        }
+    }
     public function render()
     {
         return view('livewire.add-contestant');

@@ -6,6 +6,7 @@
         <ul>
             @foreach($contestants as $contestant)
                 <li>{{ $contestant->name }} ({{ $contestant->email }})</li>
+                <button wire:click="removeContestant({{ $contestant->id }})">Törlés</button>
             @endforeach
         </ul>
     @endif
