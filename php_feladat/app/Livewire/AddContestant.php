@@ -17,29 +17,34 @@ class AddContestant extends Component
     public function mount()
     {
         $this->users = User::all();
-        $this->contestants = ContestantRound::where('round_id', $this->round)->get();
+        $contestantIds = ContestantRound::where('round_id', $this->round)->pluck('contestant_id');
+        $this->contestants = Contestant::whereIn('id', $contestantIds)->get();
     }
 
     public function addContestant()
     {
         if ($this->selectedUserId) {
-            $contestant = User::find($this->selectedUserId);
-            try {
-                $contestant = Contestant::Create([
-                    'name' => $contestant->name,
-                    'email' => $contestant->email,
-                ]);
+            $user = User::find($this->selectedUserId);
+            $contestant = Contestant::where('email', $user->email)->first();
+
+            if (!$contestant) {
+                try {
+                    $contestant = Contestant::create([
+                        'name' => $user->name,
+                        'email' => $user->email,
+                    ]);
+                } catch (\Exception $e) {
+                    session()->flash('error', 'Hiba a versenyző hozzáadásakor: ' . $e->getMessage());
+                    return;
+                }
             }
-            catch (\Exception $e) {
-                session()->flash('error', 'Hiba a versenyző hozzáadásakor: ' . $e->getMessage());
-                return;
-            }
-            
-            $contestantRound = ContestantRound::Create([
+
+            ContestantRound::create([
                 'contestant_id' => $contestant->id,
                 'round_id' => $this->round
             ]);
 
+            $this->mount();
             session()->flash('message', 'Versenyző sikeresen hozzáadva a fordulóhoz.');
         } else {
             session()->flash('error', 'Hiba!');
