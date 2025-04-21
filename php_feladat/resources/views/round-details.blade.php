@@ -9,6 +9,7 @@
     @livewireStyles
 </head>
 <body>
+    @if (auth()->user()->is_admin == 1)
     <div class="container">
         <h1>Forduló: {{ $round->name }}</h1>
         <h2 class="mt-5">Versenyzők</h2>
@@ -16,6 +17,9 @@
         <livewire:add-contestant :round="$round->id"/>
         <a href="/">Vissza a főoldalra</a>
     </div>
+    @else
+    <livewire:unauthorized />
+    @endif
         
     
 

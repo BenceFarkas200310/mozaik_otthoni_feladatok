@@ -29,26 +29,6 @@
             </table>
         </div>
     @else
-    <div class="containter">
-        <h3>A versenyek, amelyekhez rendelve vagy:</h3>
-            <div class="row">
-                @foreach ($userCompetitions as $competition)
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                {{ $competition->name }}
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">{{ $competition->year }}</p>
-                                <form action="/competitions/{{ $competition->id }}" method="GET">
-                                    @csrf
-                                    <button class="btn btn-primary">Részletek</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-    </div>
+        <livewire:unauthorized />
     @endif
 </div>

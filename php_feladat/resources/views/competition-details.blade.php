@@ -9,6 +9,7 @@
     @livewireStyles
 </head>
 <body>
+    @if(auth()->user()->is_admin == 1)
     <div class="container">
         <h1>{{$competition->name}} - Részletek</h1>
         <p><strong>Év:</strong> {{$competition->year}}</p>
@@ -22,7 +23,10 @@
         <livewire:rounds :competition="$competition" />
 
         <a href="/">Vissza a versenyekhez</a>
-    </div> 
+    </div>
+    @else
+    <livewire:unauthorized />
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     @livewireScripts
