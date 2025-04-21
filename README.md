@@ -22,4 +22,4 @@ Indítsuk el a webalkalmazást a következő paranccsal:
 
     php artisan serve
 
-Indításkor 5 darab felhasználó áll rendelkezésünkre, ebből egy van admin jogosultságokkal felruházva (email: admin@teszt.com, jelszó: 123456789). A funkciók csak ezzel a felhasználóval érhetőek el és használhatók.
+Indításkor 5 darab felhasználó áll rendelkezésünkre, ebből egy van admin jogosultságokkal felruházva (**email: admin@teszt.com, jelszó: 123456789**). A funkciók csak ezzel a felhasználóval érhetőek el és használhatók. Minden más felhasználó email címe látható az adatbázisban, a jelszavuk **123456789**
