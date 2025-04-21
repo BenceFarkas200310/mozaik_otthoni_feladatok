@@ -15,13 +15,15 @@
         <h2>Bejelentkeztél, üdv {{auth()->user()->name}}</h2>
         <form action="/logout" method="POST">
             @csrf
-            <button>Kijelentkezés</button>
+            <button class="btn btn-primary">Kijelentkezés</button>
         </form>
 
         @if (auth()->user()->is_admin == 1)
-            <h2>Admin vagy</h2>
             <livewire:add-competition />
             <livewire:competitions-list />
+
+        @else
+        <livewrie:rounds />
         @endif
     @else
         <livewire:login />

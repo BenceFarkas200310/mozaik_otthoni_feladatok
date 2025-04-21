@@ -10,6 +10,7 @@ class Rounds extends Component
     public $rounds;
     public $newRoundName;
     public $competition;
+    public $userCompetitions;
 
     public function mount()
     {
@@ -29,6 +30,15 @@ class Rounds extends Component
 
         $this->rounds->push($round);
         $this->newRoundName = '';
+    }
+
+    public function getUserCompetitions()
+    {
+        if (!Auth::user()->is_admin) {
+            $this->userCompetitions = Competition::whereHas('rounds.contestants', function($query) {
+                $query->where('contestant_id', Auth::id());
+            })->get();
+        }
     }
 
     public function render()

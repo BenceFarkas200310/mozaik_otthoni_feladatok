@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contestant_round', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('contestant_id')->constrained('contestants')->onDelete('cascade');
             $table->foreignId('round_id')->constrained('rounds')->onDelete('cascade');
             $table->timestamps();
