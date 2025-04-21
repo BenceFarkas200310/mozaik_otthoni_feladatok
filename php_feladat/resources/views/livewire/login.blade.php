@@ -14,7 +14,7 @@
             @error('password') <span class="error">{{ $message }}</span> @enderror
         </div>
         <center>
-            <button type="submit" class="btn btn-primary">Bejelentkezés</button>
+            <button type="submit" class="btn btn-primary mt-4 mb-3">Bejelentkezés</button>
             <p>Nincs még fiókod? <a href="register">Regisztrálj</a></p>
         </center>
     </form>
