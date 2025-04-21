@@ -62,7 +62,6 @@ function loadCards(collections) {
 }
 
 function addNewCollection() {
-  //TODO: Use date input
   const newCollectionName = nameInputElement.value;
   const newCollectionTheme = themeInputElement.value;
   const newCollectionDate = dateInputElement.value;
